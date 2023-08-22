@@ -767,11 +767,11 @@ times_all['rat_s_SWS'] = ((15135.43,15164.98),
 
 def get_spikes(rat_name, mod_name, day_name = '', sess_name = '', bType = None, bSmooth = True, 
                bBinned = True, bSpeed = True, bStart = False, smoothing_width = -1, folder = ''):
-    if np.str.upper(rat_name) == 'R':
+    if np.str_.upper(rat_name) == 'R':
         f = np.load(folder + 'rat_r_' + day_name + '_grid_modules_1_2_3.npz', allow_pickle = True)
-    elif np.str.upper(rat_name) == 'Q':
+    elif np.str_.upper(rat_name) == 'Q':
         f = np.load(folder + 'rat_q_grid_modules_1_2.npz', allow_pickle = True)
-    elif np.str.upper(rat_name) == 'S':
+    elif np.str_.upper(rat_name) == 'S':
         f = np.load(folder + 'rat_s_grid_modules_1.npz', allow_pickle = True)
     else:
         print('Correct rat name was not given')
@@ -786,9 +786,9 @@ def get_spikes(rat_name, mod_name, day_name = '', sess_name = '', bType = None, 
     if bType:    
         f = np.load('is_conjunctive_all.npz', allow_pickle = True)
         if len(day_name)>0:
-            is_conj = f['is_conj_' + np.str.upper(rat_name) + mod_name + '_' + day_name]
+            is_conj = f['is_conj_' + np.str_.upper(rat_name) + mod_name + '_' + day_name]
         else:
-            is_conj = f['is_conj_' + np.str.upper(rat_name) + mod_name + day_name]
+            is_conj = f['is_conj_' + np.str_.upper(rat_name) + mod_name + day_name]
         f.close()
         if bType == 'conj':
             cell_inds = cell_inds[is_conj]
@@ -797,7 +797,7 @@ def get_spikes(rat_name, mod_name, day_name = '', sess_name = '', bType = None, 
     
     if sess_name.find('_')>-1: 
         f = np.load( folder + 'Results/grid_cell_classes_indices.npz', allow_pickle = True)
-        ind = f[np.str.upper(rat_name) + mod_name + '_ind']
+        ind = f[np.str_.upper(rat_name) + mod_name + '_ind']
         f.close()
         if sess_name[sess_name.find('_')+1:] == 'bursty':
             cell_inds = cell_inds[ind==0]
@@ -805,12 +805,12 @@ def get_spikes(rat_name, mod_name, day_name = '', sess_name = '', bType = None, 
             cell_inds = cell_inds[ind==1]
         elif sess_name[sess_name.find('_')+1:] == 'nonbursty':
             cell_inds = cell_inds[ind==2]
-    if np.str.upper(sess_name[:3]) in ('SWS', 'REM'):
-        times = times_all['rat_' + np.str.lower(rat_name) + '_sleep' + day_name]
-    elif np.str.upper(sess_name[:3]) == 'WW2':
-        times = times_all['rat_' + np.str.lower(rat_name) + '_' + sess_name + day_name]        
+    if np.str_.upper(sess_name[:3]) in ('SWS', 'REM'):
+        times = times_all['rat_' + np.str_.lower(rat_name) + '_sleep' + day_name]
+    elif np.str_.upper(sess_name[:3]) == 'WW2':
+        times = times_all['rat_' + np.str_.lower(rat_name) + '_' + sess_name + day_name]        
     else:
-        times = times_all['rat_' + np.str.lower(rat_name) + '_' + sess_name[:2] + day_name]        
+        times = times_all['rat_' + np.str_.lower(rat_name) + '_' + sess_name[:2] + day_name]        
     min_time0, max_time0 = times[0]
     spikes = {}
     for i,m in enumerate(cell_inds):
@@ -827,7 +827,7 @@ def get_spikes(rat_name, mod_name, day_name = '', sess_name = '', bType = None, 
                 spikes[i] = spikes[i][(spikes[i]<= non_valid_times[0]) | (spikes[i]>= non_valid_times[1])]
 
         if (rat_name =='S') & (sess_name == 'WW'):
-            times2 = times_all['rat_' + np.str.lower(rat_name) + '_' + sess_name + '2' + day_name]        
+            times2 = times_all['rat_' + np.str_.lower(rat_name) + '_' + sess_name + '2' + day_name]        
             min_time1, max_time1 = times2[0]
             for i,m in enumerate(cell_inds):
                 s = spikes_all[m]
@@ -858,10 +858,10 @@ def get_spikes(rat_name, mod_name, day_name = '', sess_name = '', bType = None, 
                         max_time1 = t[ssp[sw[ss]]+1]
                     spikes[i] = np.array(sall)
         else:
-            start = np.array(times_all['rat_' + np.str.lower(rat_name) + '_' + sess_name[:3] + day_name])[:,0]
+            start = np.array(times_all['rat_' + np.str_.lower(rat_name) + '_' + sess_name[:3] + day_name])[:,0]
             start = start[start<max_time0]
 
-            end = np.array(times_all['rat_' + np.str.lower(rat_name) + '_' + sess_name[:3] + day_name])[:,1]
+            end = np.array(times_all['rat_' + np.str_.lower(rat_name) + '_' + sess_name[:3] + day_name])[:,1]
             end = end[end<=max_time0]
 
             for i in range(len(spikes)):
@@ -886,7 +886,7 @@ def get_spikes(rat_name, mod_name, day_name = '', sess_name = '', bType = None, 
         max_time = max_time0*res
         if bSmooth:
             sigma = 5000
-            if np.str.upper(sess_name[:3]) == 'SWS':
+            if np.str_.upper(sess_name[:3]) == 'SWS':
                 sigma = 2500
             if smoothing_width > -1:
                 sigma = smoothing_width
@@ -920,10 +920,10 @@ def get_spikes(rat_name, mod_name, day_name = '', sess_name = '', bType = None, 
                     for m, j in enumerate(spike_times):
                         spikes_bin[j, n] += 1
         else:
-            start = np.array(times_all['rat_' + np.str.lower(rat_name) + '_' + sess_name[:3] + day_name])[:,0]*res
+            start = np.array(times_all['rat_' + np.str_.lower(rat_name) + '_' + sess_name[:3] + day_name])[:,0]*res
             start = start[start<max_time]
 
-            end = np.array(times_all['rat_' + np.str.lower(rat_name) + '_' + sess_name[:3] + day_name])[:,1]*res
+            end = np.array(times_all['rat_' + np.str_.lower(rat_name) + '_' + sess_name[:3] + day_name])[:,1]*res
             end = end[end<=max_time]
             
             spikes_bin = np.zeros((1,len(spikes)))
@@ -990,11 +990,11 @@ def get_spikes(rat_name, mod_name, day_name = '', sess_name = '', bType = None, 
 
 
 def load_pos(rat_name, sess_name, day_name = '', bSpeed = False, folder = ''):    
-    if np.str.upper(rat_name) == 'R':
+    if np.str_.upper(rat_name) == 'R':
         f = np.load(folder + 'rat_r_' + day_name + '_grid_modules_1_2_3.npz', allow_pickle = True)
-    elif np.str.upper(rat_name) == 'Q':
+    elif np.str_.upper(rat_name) == 'Q':
         f = np.load(folder + 'rat_q_grid_modules_1_2.npz', allow_pickle = True)
-    elif np.str.upper(rat_name) == 'S':
+    elif np.str_.upper(rat_name) == 'S':
         f = np.load(folder + 'rat_s_grid_modules_1.npz', allow_pickle = True)
     else:
         print('Correct rat name was not given')
@@ -1005,10 +1005,10 @@ def load_pos(rat_name, sess_name, day_name = '', bSpeed = False, folder = ''):
     azimuth = f['azimuth']
     f.close()
 
-    if np.str.upper(sess_name) in ('SWS', 'REM'):
-        times = times_all['rat_' + np.str.lower(rat_name) + '_sleep' + day_name]
+    if np.str_.upper(sess_name) in ('SWS', 'REM'):
+        times = times_all['rat_' + np.str_.lower(rat_name) + '_sleep' + day_name]
     else:
-        times = times_all['rat_' + np.str.lower(rat_name) + '_' + sess_name + day_name]        
+        times = times_all['rat_' + np.str_.lower(rat_name) + '_' + sess_name + day_name]        
 
     min_time0, max_time0 = times[0]
     times = np.where((t>=min_time0) & (t<max_time0))
@@ -1043,7 +1043,7 @@ def load_pos(rat_name, sess_name, day_name = '', bSpeed = False, folder = ''):
 
     rangesa =azimuth[idx[:-1], np.newaxis] + np.multiply(ranges, (azimuth[idx[1:]] - azimuth[idx[:-1]])[:, np.newaxis])
     aa = rangesa[~np.isnan(ranges)] 
-    if (np.str.upper(rat_name) == 'R') & (day_name == 'day1'):
+    if (np.str_.upper(rat_name) == 'R') & (day_name == 'day1'):
         if sess_name =='OF':
             valid_times = np.concatenate((np.arange(0, (14778-7457)*res/dt),
                                           np.arange((14890-7457)*res/dt, (16045-7457)*res/dt))).astype(int)
@@ -1065,7 +1065,7 @@ def load_pos(rat_name, sess_name, day_name = '', bSpeed = False, folder = ''):
         dy = (yys[1:] - yys[:-1])*100
         speed = np.sqrt(dx**2+ dy**2)/0.01
         speed = np.concatenate(([speed[0]],speed))
-        if (np.str.upper(rat_name) =='S') & (sess_name == 'WW'):
+        if (np.str_.upper(rat_name) =='S') & (sess_name == 'WW'):
             xx1, yy1, aa1, tt1, speed1 = load_pos(rat_name, 'WW2', day_name, True, folder = folder)
             xx = np.concatenate((xx,xx1))
             yy = np.concatenate((yy,yy1))
@@ -1073,7 +1073,7 @@ def load_pos(rat_name, sess_name, day_name = '', bSpeed = False, folder = ''):
             tt = np.concatenate((tt,tt1))
             speed = np.concatenate((speed,speed1))
         return xx, yy, aa, tt, speed
-    if (np.str.upper(rat_name) =='S') & (sess_name == 'WW'):
+    if (np.str_.upper(rat_name) =='S') & (sess_name == 'WW'):
         xx1, yy1, aa1, tt1 = load_pos(rat_name, 'WW2', folder = folder)
         xx = np.concatenate((xx,xx1))
         yy = np.concatenate((yy,yy1))
